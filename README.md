@@ -4,5 +4,5 @@ A practical metric for estimating the highest achievable correlation between mod
 ## Installation
 TBA
 
-## Running `rho_perfect.py`
+## Estimating $\rho$-Perfect; `rho_perfect.py`
 TBA
