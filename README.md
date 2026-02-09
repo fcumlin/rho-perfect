@@ -96,7 +96,7 @@ Calculate $\rho$-Perfect from aggregated statistics.
 - **Warnings:** < 50 items or < 3 ratings per item
 
 ### `calculate_rho_perfect_from_ratings(subjective_ratings)`
-Calculate $\ho$-Perfect from individual ratings.
+Calculate $\rho$-Perfect from individual ratings.
 - **Input:** DataFrame with columns `filename`, `rater_id`, `rating`
 - **Output:** float (0 < $\rho$ ≤ 1)
 
