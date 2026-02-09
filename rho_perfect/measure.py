@@ -89,4 +89,4 @@ def calculate_rho_perfect_from_ratings(
         .agg(mos="mean", std=lambda x: x.std(ddof=1), n="count")
         .reset_index()
     )
-    return rho_perfect_from_aggregated(agg)
+    return calculate_rho_perfect(agg)
