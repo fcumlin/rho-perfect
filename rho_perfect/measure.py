@@ -24,19 +24,30 @@ from rho_perfect import utils
 
 def calculate_rho_perfect(
     subjective_statistics: pd.DataFrame,
+    *,
     ddof: int = 1
 ) -> float:
-    """Calculates ρ-Perfect from an aggregated DataFrame.
+    """Estimates ρ-Perfect: the corr ceiling for subjectively rated datasets.
+
+    ρ-Perfect is defined as the Pearson correlation between a perfect predictor
+    \hat{f}(X) = E[Y | X] and the observed mean human ratings Y. It estimates
+    the highest achievable model–human correlation given the inherent
+    subjectivity of the ratings.
+
+    This estimator:
+    - allows heteroscedastic noise across items,
+    - assumes raters are conditionally independent given an item (i.e., there
+        is no rater interaction at time of evaluation),
+    - requires at least 3 ratings per item to estimate within-item variance.
 
     Args:
-        subjective_statistics: pd.DataFrame with columns: filename, mean, std,
+        subjective_statistics: pd.DataFrame with columns filename, mean, std,
             and n. Filename is the item identifier, mean is the average rating
             value on the filename, std is the standard deviation of the ratings
             on the item, and n is the number of ratings on the item. Each row is
             one item. Recommended is n >= 3 for every item and at least 50
             items.
-        ddof: 0 if population standard deviation is used, 1 if sample standard
-            deviation is used to compute std column in subjective_statistics.
+        ddof: Degrees of freedom used when computing the variance of item means.
             Compare to np.std's ddof parameter.
 
     Returns:
@@ -52,25 +63,9 @@ def calculate_rho_perfect(
         )
     n = subjective_statistics["n"].to_numpy(dtype=float)
 
-    # Var(Y): Variance of the mean ratings across items (Eq. 3).
     var_y = np.var(mean, ddof=1)
-
-    # E[Var(Y|X)]: Average within-item variance of the mean (Eq. 5 & 6).
     var_y_given_x = np.mean(std**2 / n)
-
-    # Var(Y_hat) = Var(Y) - E[Var(Y|X)] (Eq. 4 rearranged).
     var_y_hat = var_y - var_y_given_x
-
-    # In the unlikely but possible case that the variance of the observed
-    # ratings is zero, the ceiling is zero, since no model can correlate with a
-    # constant target.
-    if var_y == 0:
-        warnings.warn(
-            "Variance of mean ratings across items is zero. The target is "
-            "constant; ρ-Perfect is not meaningful for this dataset. Returning "
-            "0."
-        )
-        return 0.0
 
     if var_y_hat <= 0:
         raise ValueError(
@@ -84,7 +79,11 @@ def calculate_rho_perfect(
 def calculate_rho_perfect_from_ratings(
     subjective_ratings: pd.DataFrame
 ) -> float:
-    """Compute ρ-Perfect from a per-rating DataFrame.
+    """Compute ρ-Perfect directly from raw ratings.
+
+    This function aggregates raw ratings per item and estimates the correlation
+    ceiling imposed by subjective rating noise. See calculate_rho_perfect for
+    details on the estimator and its assumptions.
 
     Args:
         subjective_ratings: pd.DataFrame with columns: filename, and rating.

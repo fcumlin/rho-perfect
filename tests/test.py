@@ -72,7 +72,7 @@ class TestValidateAggregatedDf:
     def test_warns_on_fewer_than_50_items(self):
         df = pd.DataFrame({
             "filename": [f"i{i}" for i in range(10)],
-            "mean": [3.0] * 10,
+            "mean": [3.0] * 5 + [4.0] * 5,
             "std": [0.5] * 10,
             "n": [8] * 10,
         })
@@ -82,7 +82,7 @@ class TestValidateAggregatedDf:
     def test_warns_on_fewer_than_3_ratings(self):
         df = pd.DataFrame({
             "filename": [f"i{i}" for i in range(60)],
-            "mean": [3.0] * 60,
+            "mean": [3.0] * 30 + [4.0] * 30,
             "std": [0.5] * 60,
             "n": [8] * 59 + [2],
         })
@@ -175,10 +175,8 @@ class TestCalculateRhoPerfect:
             "std": [0.5] * 60,
             "n": [8] * 60,
         })
-        with pytest.warns(UserWarning, match="Variance of mean ratings across items is zero"):
-            result = calculate_rho_perfect(df)
-        assert result == pytest.approx(0.0)
-
+        with pytest.raises(ValueError, match="All item means are identical."):
+            calculate_rho_perfect(df)
 
 # ---------------------------------------------------------------------------
 # measure: calculate_rho_perfect_from_ratings

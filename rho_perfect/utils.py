@@ -31,6 +31,11 @@ def validate_aggregated_df(df: pd.DataFrame) -> None:
             UserWarning,
             stacklevel=3,
         )
+    if df['mean'].nunique() == 1:
+        raise ValueError(
+            "All item means are identical. Variance of Y is zero; correlation "
+            "ceiling is not meaningful for this dataset.",
+        )
 
 
 def validate_ratings_df(df: pd.DataFrame) -> None:
