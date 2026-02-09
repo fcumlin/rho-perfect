@@ -86,7 +86,7 @@ def calculate_rho_perfect_from_ratings(
     utils.validate_ratings_df(subjective_ratings)
     agg = (
         subjective_ratings.groupby("filename")["rating"]
-        .agg(mos="mean", std=lambda x: x.std(ddof=1), n="count")
+        .agg(mean="mean", std=lambda x: x.std(ddof=1), n="count")
         .reset_index()
     )
     return calculate_rho_perfect(agg)

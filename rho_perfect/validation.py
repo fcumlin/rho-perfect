@@ -48,7 +48,7 @@ def _compute_validation_iteration(
         Dictionary with keys rho_perfect, rho_perfect_squared, and corr_y1_y2.
     """
     aggregated_a = _aggregate_ratings_df(subjective_ratings_a)
-    rho_perfect = measure.rho_perfect_from_aggregated(aggregated_a)
+    rho_perfect = measure.calculate_rho_perfect(aggregated_a)
 
     # Corr(Y1, Y2): Pearson correlation between group means (Eq. 10).
     mean_a = subjective_ratings_a.groupby("filename")["rating"].mean()
