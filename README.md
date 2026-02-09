@@ -51,7 +51,6 @@ from rho_perfect import calculate_rho_perfect_from_ratings
 # Raw ratings: one row per rating
 ratings = pd.DataFrame({
     'filename': ['item_001', 'item_001', 'item_002', ...],
-    'rater_id': [0, 1, 0, ...],
     'rating': [3.0, 3.5, 4.0, ...]
 })
 
