@@ -38,7 +38,9 @@ def calculate_rho_perfect(
     - allows heteroscedastic noise across items,
     - assumes raters are conditionally independent given an item (i.e., there
         is no rater interaction at time of evaluation),
-    - requires at least 3 ratings per item to estimate within-item variance.
+    - requires at least 3 ratings per item to estimate within-item variance. It
+        will throw and error if any item has only 1 rating, and will warn if any
+        item has fewer than 3 ratings.
 
     Args:
         subjective_statistics: pd.DataFrame with columns filename, mean, std,

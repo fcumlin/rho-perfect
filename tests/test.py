@@ -101,7 +101,7 @@ class TestValidateAggregatedDf:
 
 class TestValidateRatingsDf:
     def test_raises_on_missing_columns(self):
-        df = pd.DataFrame({"filename": ["a"], "rating": [3.0]})
+        df = pd.DataFrame({"filename": ["a"]})
         with pytest.raises(ValueError, match="missing columns"):
             validate_ratings_df(df)
 
@@ -167,7 +167,7 @@ class TestCalculateRhoPerfect:
         # ceiling should be higher for sample.
         assert rp_population < rp_sample
 
-    def test_zero_variance_of_mean_gives_zero_ceiling(self):
+    def test_zero_variance_of_mean_raises_value_error(self):
         """If all items have the same mean rating, the ceiling should be zero."""
         df = pd.DataFrame({
             "filename": [f"i{i}" for i in range(60)],
@@ -176,6 +176,17 @@ class TestCalculateRhoPerfect:
             "n": [8] * 60,
         })
         with pytest.raises(ValueError, match="All item means are identical."):
+            calculate_rho_perfect(df)
+
+    def test_only_one_rating_raises_value_error(self):
+        """If all items have the same mean rating, the ceiling should be zero."""
+        df = pd.DataFrame({
+            "filename": [f"i{i}" for i in range(60)],
+            "mean": [3.0] * 30 + [4.0] * 30,
+            "std": [0.5] * 60,
+            "n": [1] + [8] * 59,
+        })
+        with pytest.raises(ValueError, match="Some items have only one rating."):
             calculate_rho_perfect(df)
 
 # ---------------------------------------------------------------------------
