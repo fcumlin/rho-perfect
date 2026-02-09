@@ -1,4 +1,4 @@
-# ρ-Perfect: Correlation Ceiling for Subjective Evaluation Datasets
+# $\rho$-Perfect: Correlation Ceiling for Subjective Evaluation Datasets
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -34,7 +34,7 @@ ratings = pd.DataFrame({
 })
 
 rho_perfect = calculate_rho_perfect(ratings)
-print(f"ρ-Perfect = {rho_perfect:.3f}")
+print(f"$\rho$-Perfect = {rho_perfect:.3f}")
 
 # Compare to a model on the same data.
 model_pcc = 0.85  # pcc = Pearsons correlation coefficient.
@@ -60,7 +60,7 @@ rho_perfect = calculate_rho_perfect_from_ratings(ratings)
 
 ## Assumptions
 
-ρ-Perfect estimates a correlation ceiling under the following assumptions:
+$\rho$-Perfect estimates a correlation ceiling under the following assumptions:
 
 - Ratings are **conditionally independent given an item**
 - Rating noise may vary across items (**heteroscedasticity**)
@@ -70,14 +70,9 @@ rho_perfect = calculate_rho_perfect_from_ratings(ratings)
 Violations of these assumptions may lead to unreliable estimates. The
 implementation emits warnings when common failure modes are detected.
 
-## Interpretation
-
-ρ-Perfect estimates the **maximum achievable Pearson correlation** between
-any model and the mean human ratings on a given subjectively rated dataset.
-
 ## Definition
 
-**Definition 2.1 (ρ-Perfect):** Given a subjectively rated dataset $\mathcal{D} = \\{x_i, r_i^{(j)}\\}$, where $x_i$ is the $i$'th item and $r_i^{(j)}$ is the $(j)$'th rating on item $i$, the ρ-Perfect metric is given by
+**Definition 2.1 ($\rho$-Perfect):** Given a subjectively rated dataset $\mathcal{D} = \\{x_i, r_i^{(j)}\\}$, where $x_i$ is the $i$'th item and $r_i^{(j)}$ is the $(j)$'th rating on item $i$, the $\rho$-Perfect metric is given by
 
 $$\rho\text{-Perfect} \triangleq \sqrt{\frac{\text{Var}(\hat{Y})}{\text{Var}(Y)}}$$
 
@@ -89,26 +84,27 @@ $$\text{Var}(\hat{Y}) = \text{Var}(Y) - \frac{1}{n} \sum_{i=1}^n \frac{1}{m_i(m_
 
 where $y_i = \frac{1}{m_i}\sum_{j=1}^{m_i} r_i^{(j)}$ is the average rating for item $i$, and $m_i$ is the number of ratings for item $i$.
 
-**Interpretation:** ρ-Perfect estimates $\text{Corr}(Y, \hat{Y})$ where $\hat{Y} = \mathbb{E}[Y|X]$ is the best possible predictor. It represents the correlation between human ratings and a perfect model that knows the true expected rating for each item.
+**Interpretation:** $\rho$-Perfect estimates the **maximum achievable Pearson correlation** between
+any model and the mean human ratings on a given subjectively rated dataset.
 
 ## API
 
 ### `calculate_rho_perfect(subjective_statistics, ddof=1)`
-Calculate ρ-Perfect from aggregated statistics.
+Calculate $\rho$-Perfect from aggregated statistics.
 - **Input:** DataFrame with columns `filename`, `mean`, `std`, `n`
-- **Output:** float (0 < ρ ≤ 1)
+- **Output:** float (0 < $\rho$ ≤ 1)
 - **Warnings:** < 50 items or < 3 ratings per item
 
 ### `calculate_rho_perfect_from_ratings(subjective_ratings)`
-Calculate ρ-Perfect from individual ratings.
+Calculate $\ho$-Perfect from individual ratings.
 - **Input:** DataFrame with columns `filename`, `rater_id`, `rating`
-- **Output:** float (0 < ρ ≤ 1)
+- **Output:** float (0 < $\rho$ ≤ 1)
 
 ### Validation Functions
 ```python
 from rho_perfect import split_raters_validation, split_ratings_validation
 
-# Validate ρ-Perfect² ≈ test-retest correlation (Section 3.1 of paper)
+# Validate $\rho$-Perfect^2 ≈ test-retest correlation (Section 3.1 of paper)
 results = split_raters_validation(df, n_iterations=10, seed=42)
 results = split_ratings_validation(df, n_iterations=10, seed=42)
 ```
