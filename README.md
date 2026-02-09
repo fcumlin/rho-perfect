@@ -37,7 +37,7 @@ rho_perfect = calculate_rho_perfect(ratings)
 print(f"$\rho$-Perfect = {rho_perfect:.3f}")
 
 # Compare to a model on the same data.
-model_pcc = 0.85  # pcc = Pearsons correlation coefficient.
+model_pcc = 0.85  # pcc = Pearson correlation coefficient
 if model_pcc >= 0.95 * rho_perfect:
     print("Model is close to ceiling. Improve data quality for further gains.")
 else:
