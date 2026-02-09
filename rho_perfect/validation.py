@@ -97,6 +97,12 @@ def split_raters_validation(
     """
     utils.validate_ratings_df(subjective_ratings)
     rng = np.random.default_rng(seed)
+    if "rater_id" not in subjective_ratings.columns:
+        raise ValueError(
+            "`split_raters_validation` requires a 'rater_id' column to identify"
+            " raters for splitting. Please add a 'rater_id' column to the input"
+            " DataFrame.",
+        )
     unique_raters = subjective_ratings["rater_id"].unique()
 
     records = []
