@@ -61,6 +61,17 @@ def calculate_rho_perfect(
     # Var(Y_hat) = Var(Y) - E[Var(Y|X)] (Eq. 4 rearranged).
     var_y_hat = var_y - var_y_given_x
 
+    # In the unlikely but possible case that the variance of the observed
+    # ratings is zero, the ceiling is zero, since no model can correlate with a
+    # constant target.
+    if var_y == 0:
+        warnings.warn(
+            "Variance of mean ratings across items is zero. The target is "
+            "constant; ρ-Perfect is not meaningful for this dataset. Returning "
+            "0."
+        )
+        return 0.0
+
     if var_y_hat <= 0:
         raise ValueError(
             "Estimated Var(Ŷ) is non-positive. The noise dominates the signal; "

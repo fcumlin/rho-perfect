@@ -136,9 +136,11 @@ class TestCalculateRhoPerfect:
 
     def test_raises_when_noise_dominates(self):
         """Constant mean, large std → Var(Ŷ) goes negative."""
+        # The means can't be constant as the function will return 0; correlation
+        # to a constant value doesn't make sense,
         df = pd.DataFrame({
             "filename": [f"i{i}" for i in range(60)],
-            "mean": [3.0] * 60,
+            "mean": [3.0] * 30 + [4.0] * 30,
             "std": [2.0] * 60,
             "n": [4] * 60,
         })
@@ -164,6 +166,18 @@ class TestCalculateRhoPerfect:
         # Population std will be corrected, and hence, higher than sample, so
         # ceiling should be higher for sample.
         assert rp_population < rp_sample
+
+    def test_zero_variance_of_mean_gives_zero_ceiling(self):
+        """If all items have the same mean rating, the ceiling should be zero."""
+        df = pd.DataFrame({
+            "filename": [f"i{i}" for i in range(60)],
+            "mean": [3.0] * 60,
+            "std": [0.5] * 60,
+            "n": [8] * 60,
+        })
+        with pytest.warns(UserWarning, match="Variance of mean ratings across items is zero"):
+            result = calculate_rho_perfect(df)
+        assert result == pytest.approx(0.0)
 
 
 # ---------------------------------------------------------------------------
@@ -257,10 +271,12 @@ class TestValidation:
     def test_split_ratings_drops_odd_rating(self):
         """Items with odd ratings should have one dropped."""
         # Create a dataset where each item has 7 ratings (odd)
+        low_ratings = [2.0 + np.random.randn() * 0.1 for _ in range(30 * 7)]
+        high_ratings = [4.0 + np.random.randn() * 0.1 for _ in range(30 * 7)]
         df = pd.DataFrame({
             "filename": [f"item_{i}" for i in range(60) for _ in range(7)],
             "rater_id": [j for _ in range(60) for j in range(7)],
-            "rating": [3.0 + np.random.randn() * 0.5 for _ in range(60 * 7)],
+            "rating": low_ratings + high_ratings,
         })
         result = split_ratings_validation(df, n_iterations=1)
         # Should not raise and should produce valid output
