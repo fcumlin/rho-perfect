@@ -16,7 +16,7 @@ from rho_perfect import (
 
 
 # ---------------------------------------------------------------------------
-# Fixtures.
+# Synthetic ratings dataframes (fixtures).
 # ---------------------------------------------------------------------------
 
 def _make_ratings_df(
@@ -25,7 +25,7 @@ def _make_ratings_df(
     noise_std: float = 0.8,
     seed: int = 0,
 ) -> pd.DataFrame:
-    """Synthetic per-rating DataFrame with known structure."""
+    """Synthetic per-rating DataFrame."""
     rng = np.random.default_rng(seed)
     true_quality = rng.uniform(1, 5, size=n_items)
     rows = []
