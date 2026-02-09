@@ -58,6 +58,23 @@ ratings = pd.DataFrame({
 rho_perfect = calculate_rho_perfect_from_ratings(ratings)
 ```
 
+## Assumptions
+
+ρ-Perfect estimates a correlation ceiling under the following assumptions:
+
+- Ratings are **conditionally independent given an item**
+- Rating noise may vary across items (**heteroscedasticity**)
+- Each item has **at least 3 ratings** to allow estimation of within-item variance (altough in practice, it might be ok if some have fewer ratings per item as we take the mean of the variance over all items)
+- The dataset exhibits non-zero between-item variability (i.e., the mean varies over items)
+
+Violations of these assumptions may lead to unreliable estimates. The
+implementation emits warnings when common failure modes are detected.
+
+## Interpretation
+
+ρ-Perfect estimates the **maximum achievable Pearson correlation** between
+any model and the mean human ratings on a given subjectively rated dataset.
+
 ## Definition
 
 **Definition 2.1 (ρ-Perfect):** Given a subjectively rated dataset $\mathcal{D} = \\{x_i, r_i^{(j)}\\}$, where $x_i$ is the $i$'th item and $r_i^{(j)}$ is the $(j)$'th rating on item $i$, the ρ-Perfect metric is given by
