@@ -5,7 +5,7 @@
 
 Estimate the maximum achievable correlation between model predictions and human ratings, given the inherent noise in subjective data.
 
-**Reference:** Cumlin, F., "ρ-Perfect: Correlation Ceiling for Subjective Evaluation Datasets", ICASSP 2026.
+**Reference:** Cumlin, F., "Rho-Perfect: Correlation Ceiling for Subjective Evaluation Datasets", ICASSP 2026.
 
 ## Installation
 
@@ -124,7 +124,7 @@ pytest tests/
 
 ```bibtex
 @inproceedings{cumlin2026rhoperfect,
-  title={$\rho$-Perfect: Correlation Ceiling for Subjective Evaluation Datasets},
+  title={Rho-Perfect: Correlation Ceiling for Subjective Evaluation Datasets},
   author={Cumlin, Fredrik},
   booktitle={ICASSP 2026},
   year={2026}
