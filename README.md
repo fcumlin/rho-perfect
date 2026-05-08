@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
-Estimate the maximum achievable correlation between model predictions and human ratings, given the inherent noise in subjective data.
+Estimate the maximum achievable correlation between model predictions and human ratings, given the 'subjectiveness' and inherent noise in subjective data.
 
 **Reference:** Cumlin, F., "Rho-Perfect: Correlation Ceiling for Subjective Evaluation Datasets", ICASSP 2026.
 
