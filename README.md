@@ -118,11 +118,14 @@ pytest tests/
 ## Citation
 
 ```bibtex
-@inproceedings{cumlin2026rhoperfect,
-  title={Rho-Perfect: Correlation Ceiling for Subjective Evaluation Datasets},
+@INPROCEEDINGS{cumlin2026rhoperfect,
   author={Cumlin, Fredrik},
-  booktitle={ICASSP 2026},
-  year={2026}
+  booktitle={ICASSP 2026 - 2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)}, 
+  title={RHO-PERFECT: Correlation Ceiling for Subjective Evaluation Datasets}, 
+  year={2026},
+  pages={15142-15146},
+  keywords={Motion pictures;Broadcasting;Recommender systems;Band-pass filters;Filtering;Information filtering;Active filters;Circuits and systems;Protocols;Telecommunications;Subjective assessment;reliability measure;speech quality assessment;recommendation systems},
+  doi={10.1109/ICASSP55912.2026.11464989}
 }
 ```
 
